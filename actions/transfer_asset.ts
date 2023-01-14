@@ -30,7 +30,7 @@ export class TransferAsset extends PolymorphicAction {
     return {
       "sender": this.sender[toBencodex](),
       "recipient": this.recipient[toBencodex](),
-      "amount": this.amount.asBencodex(),
+      "amount": this.amount[toBencodex](),
       ...(this.memo !== undefined ? { "memo": this.memo } : {}),
     };
   }

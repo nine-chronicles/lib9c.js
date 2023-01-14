@@ -1,7 +1,8 @@
 import { EncodableArray } from "https://esm.sh/v102/bencodex@0.1.2/lib/index";
+import { Bencodexable, toBencodex } from "./bencodexable.ts";
 import { Currency } from "./currency.ts";
 
-export class FungibleAssetValue {
+export class FungibleAssetValue implements Bencodexable {
   currency: Currency;
   quantity: bigint;
 
@@ -12,7 +13,7 @@ export class FungibleAssetValue {
     this.quantity = BigInt(quantity);
   }
 
-  asBencodex(): EncodableArray {
+  [toBencodex](): EncodableArray {
     return [
       this.currency.asBencodex(),
       this.quantity,
