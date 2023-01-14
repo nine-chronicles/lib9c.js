@@ -144,6 +144,8 @@
     "https://deno.land/x/ts_morph@17.0.1/common/typescript.js": "5dd669eb199ee2a539924c63a92e23d95df43dfe2fbe3a9d68c871648be1ad5e",
     "https://esm.sh/bencodex@0.1.2": "7b9b5a34cb93005628fb28035211d1a07841aba24dc0c4b9dc9a0ada6d52fb79",
     "https://esm.sh/v102/bencodex@0.1.2/deno/bencodex.js": "52f71d6bbfe14668c8039188a546754d5ee4dacca2da60bed785dbadce335dc2",
+    "https://esm.sh/v102/bencodex@0.1.2/deno/lib/index.js": "8931a79244c7d4016287fe20c43b802eb0fa87d52bd602bf9891ac49aa992640",
+    "https://esm.sh/v102/bencodex@0.1.2/lib/index": "b1cc6225bebea3d894057420eb322f51e3486b83c9c033219dee5e1a3d70e462",
     "https://esm.sh/v102/bencodex@0.1.2/lib/index.d.ts": "21e7399ecfec610c4dfe39db19b1f7e74d3be7a4dc8465c3ba799a3ae4000079",
     "https://esm.sh/v102/node.ns.d.ts": "0fb081f0cd2150931bd54baa04f31466abd9ca701fd9060d07931402cf8367ba"
   }
