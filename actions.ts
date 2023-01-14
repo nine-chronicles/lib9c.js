@@ -39,7 +39,7 @@ abstract class PolymorphicAction {
     });
   }
 
-  protected abstract get type_id(): string;
+  protected abstract readonly type_id: string;
 
   protected abstract plain_value(): Encodable;
 }
@@ -68,6 +68,8 @@ abstract class GameAction extends PolymorphicAction {
 }
 
 export class Stake extends GameAction {
+  protected readonly type_id: string = "stake3";
+
   amount: bigint;
 
   constructor({ amount, id }: {
@@ -79,10 +81,6 @@ export class Stake extends GameAction {
     this.amount = amount;
   }
 
-  protected get type_id(): string {
-    return "stake2";
-  }
-
   protected plain_value_internal(): EncodableObject {
     return {
       "am": this.amount,
@@ -91,6 +89,8 @@ export class Stake extends GameAction {
 }
 
 export class ClaimStakeReward extends GameAction {
+  protected readonly type_id: string = "claim_stake_reward3";
+
   avatarAddress: Address;
 
   constructor({ avatarAddress, id }: {
@@ -100,10 +100,6 @@ export class ClaimStakeReward extends GameAction {
     super(id);
 
     this.avatarAddress = avatarAddress;
-  }
-
-  protected get type_id(): string {
-    return "claim_stake_reward3";
   }
 
   protected plain_value_internal(): EncodableObject {
@@ -160,6 +156,8 @@ class FungibleAssetValue {
 }
 
 export class TransferAsset extends PolymorphicAction {
+  protected readonly type_id: string = "transfer_asset3";
+
   sender: Address;
   recipient: Address;
   amount: FungibleAssetValue;
@@ -177,10 +175,6 @@ export class TransferAsset extends PolymorphicAction {
     this.recipient = recipient;
     this.amount = amount;
     this.memo = memo;
-  }
-
-  protected get type_id(): string {
-    return "claim_stake_reward3";
   }
 
   protected plain_value(): Encodable {
