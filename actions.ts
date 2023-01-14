@@ -6,7 +6,30 @@ import {
 } from "https://esm.sh/bencodex@0.1.2";
 import { decode } from "https://deno.land/std@0.171.0/encoding/hex.ts";
 
-type Address = Uint8Array;
+const toBencodex = Symbol.for("toBencodex");
+
+interface Bencodexable {
+  [toBencodex](): Encodable;
+}
+
+class Address implements Bencodexable {
+  private readonly value: Uint8Array;
+  constructor(value: string | Uint8Array) {
+    if (typeof value === "string") {
+      this.value = decode(new TextEncoder().encode(value.replace("0x", "")));
+    } else {
+      this.value = value;
+    }
+
+    if (this.value.length !== 20) {
+      throw new RangeError("Address' length must be 20-bytes.");
+    }
+  }
+
+  [toBencodex](): Encodable {
+    return this.value;
+  }
+}
 
 abstract class PolymorphicAction {
   serialize(): Buffer {
@@ -68,23 +91,15 @@ export class Stake extends GameAction {
 }
 
 export class ClaimStakeReward extends GameAction {
-  avatarAddress: Uint8Array;
+  avatarAddress: Address;
 
   constructor({ avatarAddress, id }: {
-    avatarAddress: string | Uint8Array;
+    avatarAddress: Address;
     id?: Uint8Array;
   }) {
     super(id);
 
-    if (typeof avatarAddress === "string") {
-      this.avatarAddress = toAddress(avatarAddress);
-
-      if (this.avatarAddress.length !== 20) {
-        throw new RangeError("Address' length must be 20-bytes.");
-      }
-    } else {
-      this.avatarAddress = avatarAddress;
-    }
+    this.avatarAddress = avatarAddress;
   }
 
   protected get type_id(): string {
@@ -93,7 +108,7 @@ export class ClaimStakeReward extends GameAction {
 
   protected plain_value_internal(): EncodableObject {
     return {
-      "aa": this.avatarAddress,
+      "aa": this.avatarAddress[toBencodex](),
     };
   }
 }
@@ -119,7 +134,7 @@ class Currency {
   asBencodex(): EncodableObject {
     return {
       "ticker": this.ticker,
-      "minters": this.minters,
+      "minters": this.minters.map((x) => x[toBencodex]()),
       "decimalPlaces": this.decimalPlaces,
     };
   }
@@ -145,39 +160,21 @@ class FungibleAssetValue {
 }
 
 export class TransferAsset extends PolymorphicAction {
-  sender: Uint8Array;
-  recipient: Uint8Array;
+  sender: Address;
+  recipient: Address;
   amount: FungibleAssetValue;
   memo: string | undefined;
 
   constructor({ sender, recipient, amount, memo }: {
-    sender: string | Uint8Array;
-    recipient: string | Uint8Array;
+    sender: Address;
+    recipient: Address;
     amount: FungibleAssetValue;
     memo?: string;
   }) {
     super();
 
-    if (typeof sender === "string") {
-      this.sender = toAddress(sender);
-
-      if (this.sender.length !== 20) {
-        throw new RangeError("Address' length must be 20-bytes.");
-      }
-    } else {
-      this.sender = sender;
-    }
-
-    if (typeof recipient === "string") {
-      this.recipient = toAddress(recipient);
-
-      if (this.recipient.length !== 20) {
-        throw new RangeError("Address' length must be 20-bytes.");
-      }
-    } else {
-      this.recipient = recipient;
-    }
-
+    this.sender = sender;
+    this.recipient = recipient;
     this.amount = amount;
     this.memo = memo;
   }
@@ -188,20 +185,16 @@ export class TransferAsset extends PolymorphicAction {
 
   protected plain_value(): Encodable {
     return {
-      "sender": this.sender,
-      "recipient": this.recipient,
+      "sender": this.sender[toBencodex](),
+      "recipient": this.recipient[toBencodex](),
       "amount": this.amount.asBencodex(),
       ...(this.memo !== undefined ? { "memo": this.memo } : {}),
     };
   }
 }
 
-function toAddress(address: string): Address {
-  return decode(new TextEncoder().encode(address.replace("0x", "")));
-}
-
 export const NCG = new Currency({
   ticker: "NCG",
   decimalPlaces: 2,
-  minters: [toAddress("0x47d082a115c63e7b58b1532d20e631538eafadde")],
+  minters: [new Address("0x47d082a115c63e7b58b1532d20e631538eafadde")],
 });
