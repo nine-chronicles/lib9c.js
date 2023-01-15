@@ -1,0 +1,25 @@
+export enum ItemSubType {
+  FOOD = 0,
+
+  FULL_COSTUME = 1,
+  HAIR_COSTUME = 2,
+  EAR_COSTUME = 3,
+  EYE_COSTUME = 4,
+  TAIL_COSTUME = 5,
+
+  WEAPON = 6,
+  ARMOR = 7,
+  BELT = 8,
+  NECKLACE = 9,
+  RING = 10,
+
+  EQUIPMENT_MATERIAL = 11,
+  FOOD_MATERIAL = 12,
+  MONSTER_PART = 13,
+  NORMAL_MATERIAL = 14,
+  HOURGLASS = 15,
+  APSTONE = 16,
+  CHEST = 17,
+
+  TITLE = 18,
+}
