@@ -1,27 +1,8 @@
-import {
-  EncodableArray,
-  EncodableObject,
-} from "https://esm.sh/v102/bencodex@0.1.2/lib/index";
+import { EncodableObject } from "https://esm.sh/v102/bencodex@0.1.2/lib/index";
 import { Address } from "../models/address.ts";
-import { Bencodexable, toBencodex } from "../models/bencodexable.ts";
+import { toBencodex } from "../models/bencodexable.ts";
+import { RuneSlotInfo } from "../models/mod.ts";
 import { GameAction } from "./common.ts";
-
-export class RuneSlotInfo implements Bencodexable {
-  slotIndex: bigint;
-  runeId: bigint;
-
-  constructor({ slotIndex, runeId }: {
-    slotIndex: bigint;
-    runeId: bigint;
-  }) {
-    this.slotIndex = slotIndex;
-    this.runeId = runeId;
-  }
-
-  [toBencodex](): EncodableArray {
-    return [this.slotIndex.toString(), this.runeId.toString()];
-  }
-}
 
 export class HackAndSlash extends GameAction {
   protected readonly type_id: string = "hack_and_slash19";
