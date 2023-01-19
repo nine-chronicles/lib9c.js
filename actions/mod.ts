@@ -9,3 +9,4 @@ export { SellCancellation } from "./sell_cancellation.ts";
 export { DailyReward } from "./daily_reward.ts";
 export { CreateAvatar } from "./create_avatar.ts";
 export { JoinArena } from "./join_arena.ts";
+export { BattleArena } from "./battle_arena.ts";
