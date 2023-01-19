@@ -7,3 +7,4 @@ export { Buy, PurchaseInfo } from "./buy.ts";
 export { Sell } from "./sell.ts";
 export { SellCancellation } from "./sell_cancellation.ts";
 export { DailyReward } from "./daily_reward.ts";
+export { CreateAvatar } from "./create_avatar.ts";
