@@ -6,3 +6,4 @@ export { ActivateAccount } from "./activate_account.ts";
 export { Buy, PurchaseInfo } from "./buy.ts";
 export { Sell } from "./sell.ts";
 export { SellCancellation } from "./sell_cancellation.ts";
+export { DailyReward } from "./daily_reward.ts";
